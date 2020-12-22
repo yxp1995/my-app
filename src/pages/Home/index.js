@@ -1,8 +1,7 @@
 import React from "react";
 import { Carousel } from 'antd-mobile';
 import { withRouter } from "react-router-dom";
-import axios from "axios"
-
+import axios from "../../utils/http.js";
 
 class Index extends React.PureComponent {
     state = {
@@ -13,7 +12,7 @@ class Index extends React.PureComponent {
         this.getPic();
     }
     getPic = async () => {
-        const res = await axios.get("http://localhost:8080/home/swiper");
+        const res = await axios.get("/home/swiper");
         this.setState(() => {
             return { data: res.data.body }
         })
