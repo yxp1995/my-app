@@ -1,10 +1,10 @@
 import React from "react";
+import Router from "./router.js";
+
 class App extends React.PureComponent {
   render() {
     return (
-      <div>
-        App
-      </div>
+       <Router />
     )
   }
 }

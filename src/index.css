@@ -1,0 +1,15 @@
+html,
+body {
+  height: 100%;
+  color: #333;
+  background-color: #fff;
+}
+.App {
+  height: 100%;
+}
+p {
+  margin: 0px;
+}
+li {
+  list-style-type: none;
+}

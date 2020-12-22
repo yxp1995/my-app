@@ -1,0 +1,22 @@
+{
+    "tabbarList" : [
+        {
+            "title": "首页",
+            "id": 1,
+            "icon": "icon-ind",
+            "path": "/Home"
+        },
+        {
+            "title": "找房",
+            "id": 2,
+            "icon": "icon-findHouse",
+            "path": "/Home/house"
+        },
+        {
+            "title": "我的",
+            "id": 3,
+            "icon": "icon-my",
+            "path": "/Home/profile"
+        }
+    ]
+}
