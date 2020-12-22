@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel } from 'antd-mobile';
 import { withRouter } from "react-router-dom";
-import axios from "../../utils/http.js";
+import { getSwiper } from "../../api/home.js";
 
 class Index extends React.PureComponent {
     state = {
@@ -12,7 +12,8 @@ class Index extends React.PureComponent {
         this.getPic();
     }
     getPic = async () => {
-        const res = await axios.get("/home/swiper");
+        const res = await getSwiper();
+        console.log(res)
         this.setState(() => {
             return { data: res.data.body }
         })
