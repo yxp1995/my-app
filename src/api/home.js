@@ -22,3 +22,11 @@ export const getNews = (id) => {
         params: id
     })
 }
+
+export const getCity = (cityName) => {
+    return request({
+        url: "/area/info",
+        method: "GET",
+        params: cityName
+    })
+}

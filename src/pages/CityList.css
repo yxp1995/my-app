@@ -1,7 +1,30 @@
-.cityList {
-    height: 100%;
+.cityListBox {
+    height: 100vh;
 }
-
-#container {
-    height: 100%;
+.navbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+.virtualized {
+    top: 45px;
+}
+.cityLi {
+    /* border-bottom: 1px solid #ccc; */
+}
+.cityIndex {
+    font-size: 16px;
+    color: #999;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.cityItem {
+    font-size: 18px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+.citySon {
+    line-height: 28px;
 }

@@ -6,6 +6,8 @@ import Nav1 from '../../assets/images/nav-1.png';
 import Nav2 from '../../assets/images/nav-2.png';
 import Nav3 from '../../assets/images/nav-3.png';
 import Nav4 from '../../assets/images/nav-4.png';
+import { getCurrCity } from '../../utils/getCurrCity.js';
+import { getCity, setCity } from '../../utils/localstorage/city.js';
 import "./index.css";
 
 const FlexList = [
@@ -40,12 +42,14 @@ class Index extends React.PureComponent {
         imgHeight: 234,
         animation: false,
         zfxzList: [],
-        newsList: []
+        newsList: [],
+        cityInfo: { label: "定位中", value: "" }
     }
     componentDidMount() {
         this.getPic();
         this.getGroups();
         this.getNews();
+        this.getCurrCity();
     }
     getPic = async () => {
         const res = await getSwiper();
@@ -88,7 +92,7 @@ class Index extends React.PureComponent {
     }
     getGroups = async () => {
         const res = await getGroups({ area: "AREA|88cff55c-aaa4-e2e0" });
-        if (res.status == 200) {
+        if (res.status === 200) {
             this.setState(() => {
                 return { zfxzList: res.data.body }
             })
@@ -101,15 +105,14 @@ class Index extends React.PureComponent {
                     this.props.history.push(item.path)
                 }}
             >
-                <img src={item.img} />
+                <img src={item.img} alt="图片加载失败" />
                 <p>{item.title}</p>
             </Flex.Item>
         })
     }
     getNews = async () => {
         const res = await getNews({ area: 'AREA|88cff55c-aaa4-e2e0' });
-        console.log('咨询', res)
-        if (res.status == 200) {
+        if (res.status === 200) {
             this.state.newsList = res.data.body
         }
     }
@@ -119,7 +122,7 @@ class Index extends React.PureComponent {
                 <Card key={item.id}>
                     <Card.Body className="Card">
                         <div className="left">
-                            <img src={`http://localhost:8080${item.imgSrc}`} />
+                            <img src={`http://localhost:8080${item.imgSrc}`} alt="图片加载失败" />
                         </div>
                         <div className="right">
                             <WingBlank><h4>{item.title}</h4></WingBlank>
@@ -133,16 +136,38 @@ class Index extends React.PureComponent {
             )
         })
     }
+    getCurrCity = () => {
+        const currentCIty = getCity();
+        if (!currentCIty) {
+            getCurrCity().then(res => {
+                setCity(res);
+                this.setState(() => {
+                    return { cityInfo: res }
+                })
+            })
+        } else {
+            this.setState(() => {
+                return { cityInfo: currentCIty }
+            })
+        }
+    }
     render() {
         return (
             <div>
                 {/* 顶部导航 */}
                 <NavBar
                     mode="dark"
+                    leftContent={
+                        <span
+                            onClick={() => {
+                                this.props.history.push("/CityList")
+                            }}
+                        >{this.state.cityInfo.label}</span>
+                    }
                     rightContent={[
                         // <Icon key="0" type="search" style={{ marginRight: '16px' }} />,
                         <Icon key="1" type="ellipsis" onClick={() => {
-                            this.props.history.push("/CityList")
+                            this.props.history.push("/map")
                         }} />,
                     ]}
                     className="navbar"
@@ -177,7 +202,7 @@ class Index extends React.PureComponent {
                                 <p>{dataItem.desc}</p>
                             </div>
                             <div className="right">
-                                <img src={`http://localhost:8080${dataItem.imgSrc}`} />
+                                <img src={`http://localhost:8080${dataItem.imgSrc}`} alt="图片加载失败" />
                             </div>
                         </div>
                     )}

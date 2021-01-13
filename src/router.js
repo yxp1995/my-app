@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home.js";
 import CityList from "./pages/CityList.js";
+import Map from "./pages/map/index.js";
 
 class RouterComponent extends React.PureComponent {
     render() {
@@ -32,6 +33,9 @@ class RouterComponent extends React.PureComponent {
                     </Route> */}
                     <Route path="/Home">
                       <Home />
+                    </Route>
+                    <Route path="/map">
+                      <Map />
                     </Route>
                     <Route path="/CityList">
                       <CityList />
