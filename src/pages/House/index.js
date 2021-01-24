@@ -1,12 +1,22 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
+// import { Flex } from 'antd-mobile'
 
-class House extends React.PureComponent {
+import Filter from './components/Filter'
+// 导入样式
+import styles from './index.module.css'
+import { withRouter } from "react-router-dom";
+
+// 获取当前定位城市信息
+// const { label } = JSON.parse(localStorage.getItem('currentCity'))
+class HouseList extends React.Component {
     render() {
         return (
-            <div>找房</div>
+            <div className={styles.root}>
+                {/* 条件筛选栏 */}
+                <Filter />
+            </div>
         )
     }
 }
 
-export default withRouter(House);
+export default withRouter(HouseList);
