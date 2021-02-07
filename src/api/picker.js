@@ -6,3 +6,10 @@ export function getCondition(id) {
         params: id
     })
 }
+
+export const filterHouse = (params) => {
+    return request({
+        url: "/houses",
+        params: params
+    })
+}

@@ -9,7 +9,10 @@ function FilterFooter({ className, style, onCancel, onSave }) {
   return (
     <Flex style={style} className={[styles.root, className || ''].join(' ')}>
       {/* 取消按钮 */}
-      <span onClick={onCancel} className={[styles.btn, styles.cancel].join(' ')}>取消</span>
+      <span 
+        onClick={onCancel} 
+        className={[styles.btn, styles.cancel].join(' ')}
+      >取消</span>
 
       {/* 确定按钮 */}
       <span className={[styles.btn, styles.ok].join(' ')} onClick={onSave}>确定</span>
