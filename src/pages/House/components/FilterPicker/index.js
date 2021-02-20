@@ -4,6 +4,8 @@ import { PickerView } from 'antd-mobile'
 
 import FilterFooter from '../../../../components/FilterFooter'
 
+import styles from './index.module.css'
+
 // const province = [
 //   {
 //     label: '北京',
@@ -103,12 +105,12 @@ export default class FilterPicker extends Component {
     const { value } = this.state
     
     return (
-      <>
+      <div>
         {/* 选择器组件： */}
         <PickerView data={filterData} value={value} onChange={this.getChange} cols={col} />
         {/* 底部按钮 */}
         <FilterFooter onCancel={() => {onCancel(type)}} onSave={() => { return onSave(value, type, 'picker') }} />
-      </>
+      </div>
     )
   }
 }

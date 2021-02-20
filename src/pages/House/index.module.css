@@ -1,5 +1,8 @@
 .root {
   /* padding-top: 45px; */
+  height: calc(100vh - 91px);
+  margin-top: 41px;
+  margin-bottom: 50px;
 }
 
 /* 顶部导航栏样式 */
@@ -35,4 +38,9 @@
 
 .searchHeader :global(.search) {
   height: 30px;
+}
+
+.loading {
+  height: 114px;
+  background-color: #eee;
 }

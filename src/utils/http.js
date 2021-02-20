@@ -4,7 +4,7 @@ import axios from "axios";
 // 创建axios对象,配置baseurl
 let http = axios.create({
     baseURL: 'http://localhost:8080',
-    timeout: 4000
+    timeout: 40000
 });
 
 

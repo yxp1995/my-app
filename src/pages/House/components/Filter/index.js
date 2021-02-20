@@ -29,7 +29,11 @@ export default class Filter extends Component {
       more: ''
     }
   }
+  bodyDom = {}
   setActive = (active) => {
+    // 给body添加类名, 此类名在最外层css中设置了overflow:hidden
+    // 作用是picker弹出时不让列表滚动,在Picker关闭时需要将此类名删除
+    this.bodyDom.classList.add("scrollAuto");
     const { pickerSelect, activeList } = this.state
     let activeList2 = { ...activeList }
     Object.keys(activeList).forEach(item => {
@@ -65,6 +69,7 @@ export default class Filter extends Component {
     })
   }
   onCancel = (active) => {
+    this.bodyDom.classList.remove("scrollAuto")
     const { pickerSelect, activeList } = this.state
     let activeList2 = { ...activeList }
     if (active === "area") {
@@ -98,6 +103,7 @@ export default class Filter extends Component {
     })
   }
   onSave = (val, active, type) => {
+    this.bodyDom.classList.remove("scrollAuto")
     const { activeList } = this.state
     let activeList2 = { ...activeList }
     let filterCondition = {}
@@ -183,6 +189,7 @@ export default class Filter extends Component {
     }, async () => {
       const { houseFilter } = this.props
       houseFilter(this.state.filterCondition)
+      window.scrollTo(0,0)
     })
   }
   getDistrict = () => {
@@ -256,6 +263,7 @@ export default class Filter extends Component {
   }
   componentDidMount() {
     this.getDistrict();
+    this.bodyDom = window.document.body;
   }
   render() {
     const { activeList, pickerOpen } = this.state;

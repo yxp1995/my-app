@@ -4,6 +4,9 @@ body {
   color: #333;
   background-color: #fff;
 }
+.scrollAuto {
+  overflow: hidden;
+}
 * {
   touch-action: none;
 }
