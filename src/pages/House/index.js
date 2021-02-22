@@ -32,7 +32,8 @@ class HouseList extends React.Component {
             </div>
         }
         return (
-            <HouseItem key={key} style={style} {...state} />
+            // 编程时导航:路由后面拼接的是动态路由,需要在Route中/:id接收, 而后面第二个参数是传递的数据, 相当于在vue中的params
+            <HouseItem onClick={() => {this.props.history.push("/houseDetail/"+state.houseCode,{id:state.houseCode})}} key={key} style={style} {...state} />
         );
     }
     houseFilter = async (val) => {
