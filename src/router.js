@@ -9,6 +9,7 @@ import Home from "./pages/Home.js";
 import CityList from "./pages/CityList.js";
 import Map from "./pages/map/index.js";
 import HouseDetail from "./pages/House/HouseDetail/index.js";
+import Login from "./pages/login/index.js"
 
 class RouterComponent extends React.PureComponent {
   render() {
@@ -44,6 +45,8 @@ class RouterComponent extends React.PureComponent {
             <Route path="/houseDetail/:id" component={HouseDetail}> 
               {/*这种写component的方式在HouseDetail中不用使用withRouter组件关联路由 */}
               {/*<HouseDetail/> 这种将组件写在标签中的方式需要在HouseDetail组件导出时用withRouter将组件与路由关联,否则拿不到路由信息 */}
+            </Route>
+            <Route path="/Login" component={Login}>
             </Route>
             <Route path="/" render={() => <Redirect to="/Home" />}>
             </Route>
