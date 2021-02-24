@@ -16,6 +16,11 @@ form input {
 form .password {
   margin-top: 20px;
 }
+form #feedback {
+  color: red;
+  text-align: left;
+  margin-left: 6%;
+}
 .btn {
   display: flex;
   flex-direction: column;

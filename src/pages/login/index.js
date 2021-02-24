@@ -6,6 +6,7 @@ import styles from "./index.module.css";
 import { login } from "../../api/login.js";
 import { setToken } from "../../utils/localstorage/token.js";
 import { withFormik } from 'formik';
+import * as Yup from 'yup';
 
 class Login extends React.PureComponent {
     render() {
@@ -29,7 +30,7 @@ class Login extends React.PureComponent {
                         onBlur={handleBlur}
                         className={styles.userName}
                     ></input>
-                    {errors.username && touched.username && <div id="feedback">{errors.username}</div>}
+                    {errors.username && touched.username && <div id={styles.feedback}>{errors.username}</div>}
                     <input 
                         name="password" 
                         type="password" 
@@ -38,7 +39,7 @@ class Login extends React.PureComponent {
                         onBlur={handleBlur}
                         className={styles.password}
                     ></input>
-                    {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
+                    {errors.password && touched.password && <div id={styles.feedback}>{errors.password}</div>}
                     <div className={styles.btn}>
                         <button className={styles.submit} type="submit">登录</button>
                         <div className={styles.link}>
@@ -50,24 +51,26 @@ class Login extends React.PureComponent {
         )
     }
 }
+// withFormik: 高阶组件,表单验证
 const MyEnhancedForm = withFormik({
     mapPropsToValues: () => {
         return { username: 'test2', password: 'test2' }
     },
 
     // Custom sync validation
-    validate: values => {
-        const errors = {};
+    // validate: values => {
+    //     const errors = {};
 
-        if (!values.username) {
-            errors.username = 'Requiredusername';
-        }
-        if (!values.password) {
-            errors.password = 'Requiredpassword';
-        }
+    //     if (!values.username) {
+    //         errors.username = 'Requiredusername';
+    //     }
+    //     if (!values.password) {
+    //         errors.password = 'Requiredpassword';
+    //     }
 
-        return errors;
-    },
+    //     return errors;
+    // },
+    validationSchema: () => SignupSchema,
     handleSubmit: async(values, formikBag) => {
         console.log(formikBag,'----')
         const { username, password } = values
@@ -87,5 +90,12 @@ const MyEnhancedForm = withFormik({
 
     displayName: 'BasicForm',
 })(Login);
+// 验证规则->使用了yup包->在formik文档中有介绍
+const SignupSchema = Yup.object().shape({
+    username: Yup.string().min(2,'最小长度为2!')
+    .max(8,'最大长度为8!').required('必填项!'),
+    password: Yup.string().min(2,'最小长度为2!')
+    .max(8,'最大长度为8!').required('必填项!')
+})
 
 export default withRouter(MyEnhancedForm)
