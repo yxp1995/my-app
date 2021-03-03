@@ -43,8 +43,7 @@ class Home extends React.PureComponent {
         <Route path="/Home/house">
           <House />
         </Route>
-        <Route path="/Home/profile">
-          <Profile />
+        <Route path="/Home/profile" component={Profile}>
         </Route>
         {/* navbar */}
         <div className="tabBar">

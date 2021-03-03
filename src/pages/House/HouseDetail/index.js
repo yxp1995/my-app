@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Carousel, Flex, Modal, Toast, NavBar, Icon } from 'antd-mobile'
 import axios from 'axios'
+import { getHouseIsFavorite } from "../../../api/houseDetil.js";
 import HouseItem from '../HouseItem'
 import styles from './index.module.css'
 import HousePackage from '../../../components/HousePackage'
+import { getToken, removeToken, isToken } from '../../../utils/localstorage/token.js';
 const BASE_URL = `http://localhost:8080`
 // 猜你喜欢
 const recommendHouses = [
@@ -94,7 +96,23 @@ class HouseDetail extends Component {
     // 表示房源是否收藏
     isFavorite: false
   }
-
+  getHouseIsFavorite = async() => {
+    const { id } = this.props.match.params
+    const headers = {
+      authorization: JSON.parse(getToken())
+    }
+    const {data} = await getHouseIsFavorite(id,headers)
+    if(data.status === 200) {
+      this.setState(() => {
+        return {
+          isFavorite: data.body.isFavorite
+        }
+      })
+    }else {
+      Toast.fail(data.description,1,null,false)
+      removeToken()
+    }
+  }
   componentDidMount() {
     // 获取配置好的路由参数：
     // console.log('路由参数对象：', this.props.match.params)
@@ -102,6 +120,12 @@ class HouseDetail extends Component {
 
     // 获取房屋数据
     this.getHouseDetail()
+    // 查看房源是否已收藏
+    if(isToken()) {
+      this.getHouseIsFavorite()
+    }else {
+      Toast.info("登录失效",1,null,false)
+    }
   }
 
   /* 

@@ -5,3 +5,12 @@ export const setToken = (val) => {
 export const getToken = () => {
     return window.localStorage.getItem("token")
 }
+
+export const removeToken = () => {
+    return window.localStorage.removeItem("token")
+}
+
+// 是否登录
+export const isToken = () => {
+    return !!getToken()
+}
