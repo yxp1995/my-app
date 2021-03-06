@@ -1,18 +1,16 @@
 import request from "../utils/http.js"
 
-const getInfo = (params) => {
+const getInfo = () => {
     return request({
         method: "Get",
-        url: "/user",
-        headers: params
+        url: "/user"
     })
 }
 
-const logout = (params) => {
+const logout = () => {
     return request({
         method: "POST",
-        url: "/user/logout",
-        headers: params
+        url: "/user/logout"
     })
 }
 

@@ -42,6 +42,7 @@ class RouterComponent extends React.PureComponent {
             <Route path="/CityList">
               <CityList />
             </Route>
+            {/* 编程式导航:路由后面拼接的是动态路由,需要在Route中/:id接收, 而后面第二个参数是传递的数据, 相当于在vue中的params */}
             <Route path="/houseDetail/:id" component={HouseDetail}> 
               {/*这种写component的方式在HouseDetail中不用使用withRouter组件关联路由 */}
               {/*<HouseDetail/> 这种将组件写在标签中的方式需要在HouseDetail组件导出时用withRouter将组件与路由关联,否则拿不到路由信息 */}

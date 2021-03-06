@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { Carousel, Flex, Modal, Toast, NavBar, Icon } from 'antd-mobile'
+import { Carousel, Flex, Toast, NavBar, Icon } from 'antd-mobile'
 import axios from 'axios'
-import { getHouseIsFavorite } from "../../../api/houseDetil.js";
+import { getHouseIsFavorite, addHouseFavorite, delHouseFavorite } from "../../../api/houseDetil.js";
 import HouseItem from '../HouseItem'
 import styles from './index.module.css'
 import HousePackage from '../../../components/HousePackage'
-import { getToken, removeToken, isToken } from '../../../utils/localstorage/token.js';
+import { removeToken, isToken } from '../../../utils/localstorage/token.js';
 const BASE_URL = `http://localhost:8080`
 // 猜你喜欢
 const recommendHouses = [
@@ -53,7 +53,7 @@ const labelStyle = {
   userSelect: 'none'
 }
 
-const alert = Modal.alert
+// const alert = Modal.alert
 
 class HouseDetail extends Component {
   state = {
@@ -96,23 +96,63 @@ class HouseDetail extends Component {
     // 表示房源是否收藏
     isFavorite: false
   }
-  getHouseIsFavorite = async() => {
+  getHouseIsFavorite = async () => {
     const { id } = this.props.match.params
-    const headers = {
-      authorization: JSON.parse(getToken())
-    }
-    const {data} = await getHouseIsFavorite(id,headers)
-    if(data.status === 200) {
+    const { data } = await getHouseIsFavorite(id)
+    console.log('哎', data)
+    if (data.status === 200) {
       this.setState(() => {
         return {
           isFavorite: data.body.isFavorite
         }
       })
-    }else {
-      Toast.fail(data.description,1,null,false)
+    } else {
+      Toast.fail(data.description, 1, null, false)
       removeToken()
     }
   }
+
+  handleFavorite = async () => {
+    const { id } = this.props.match.params
+    const { isFavorite } = this.state
+    if (!isFavorite && isToken()) {
+      const { data } = await addHouseFavorite(id)
+      if (data.status === 200) {
+        this.setState(() => {
+          return {
+            isFavorite: true
+          }
+        })
+      } else {
+        Toast.fail(data.description, 1, null, false)
+        this.setState(() => {
+          return {
+            isFavorite: false
+          }
+        })
+      }
+    } else if (isFavorite && isToken()) {
+      const { data } = await delHouseFavorite(id)
+      if (data.status === 200) {
+        this.setState(() => {
+          return {
+            isFavorite: false
+          }
+        })
+      } else {
+        Toast.fail(data.description, 1, null, false)
+        this.setState(() => {
+          return {
+            isFavorite: true
+          }
+        })
+      }
+    } else {
+      Toast.info("登录失效", 1, null, false)
+    }
+
+  }
+
   componentDidMount() {
     // 获取配置好的路由参数：
     // console.log('路由参数对象：', this.props.match.params)
@@ -121,10 +161,10 @@ class HouseDetail extends Component {
     // 获取房屋数据
     this.getHouseDetail()
     // 查看房源是否已收藏
-    if(isToken()) {
+    if (isToken()) {
       this.getHouseIsFavorite()
-    }else {
-      Toast.info("登录失效",1,null,false)
+    } else {
+      Toast.info("登录失效", 1, null, false)
     }
   }
 
@@ -151,7 +191,7 @@ class HouseDetail extends Component {
     */
 
   // 获取房屋详细信息
-  async getHouseDetail() {
+  getHouseDetail = async () => {
     const { id } = this.props.match.params
 
     // 开启loading
@@ -175,6 +215,7 @@ class HouseDetail extends Component {
     // 渲染地图
     this.renderMap(community, coord)
   }
+
 
   // 渲染轮播图结构
   renderSwipers() {
@@ -255,8 +296,8 @@ class HouseDetail extends Component {
         <NavBar
           mode="dark"
           icon={<Icon type="left" />}
-          onLeftClick={() => {this.props.history.goBack()}}
-          rightContent={[<i key="share" className="iconfont icon-share"/>]}
+          onLeftClick={() => { this.props.history.goBack() }}
+          rightContent={[<i key="share" className="iconfont icon-share" />]}
         >
           房屋详情
         </NavBar>
@@ -267,8 +308,8 @@ class HouseDetail extends Component {
               {this.renderSwipers()}
             </Carousel>
           ) : (
-            ''
-          )}
+              ''
+            )}
         </div>
         {/* 房屋基础信息 */}
         <div className={styles.info}>
@@ -336,8 +377,8 @@ class HouseDetail extends Component {
           {supporting.length === 0 ? (
             <div className={styles.titleEmpty}>暂无数据</div>
           ) : (
-            <HousePackage list={supporting} />
-          )}
+              <HousePackage list={supporting} />
+            )}
         </div>
         {/* 房屋概况 */}
         <div className={styles.set}>

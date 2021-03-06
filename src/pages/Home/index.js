@@ -33,7 +33,7 @@ const FlexList = [
         id: 4,
         img: Nav4,
         title: '去出租',
-        path: '/Home/list4'
+        path: '/Home/rent'
     }
 ]
 class Index extends React.PureComponent {

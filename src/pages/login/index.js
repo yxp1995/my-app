@@ -82,7 +82,7 @@ const MyEnhancedForm = withFormik({
         if (data.status === 200) {
             setToken(data.body.token)
             Toast.success(data.description, 2, null, false)
-            formikBag.props.history.push("/")
+            formikBag.props.history.push("/Home/rent")
         } else {
             Toast.info(data.description, 2, null, false)
         }

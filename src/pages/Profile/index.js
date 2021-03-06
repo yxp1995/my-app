@@ -1,16 +1,16 @@
-import React, { Component, PureComponent } from 'react'
+import React, { Component } from 'react'
 
 import { Link } from 'react-router-dom'
 import { Grid, Button, Toast } from 'antd-mobile'
 import styles from './index.module.css'
-import { isToken, getToken, removeToken } from '../../utils/localstorage/token'
+import { isToken, removeToken } from '../../utils/localstorage/token'
 import { getInfo, logout } from '../../api/profile.js'
 const BASE_URL = "http://localhost:8080"
 
 // 菜单数据
 const menus = [
   { id: 1, name: '我的收藏', iconfont: 'icon-coll', to: '/favorate' },
-  { id: 2, name: '我的出租', iconfont: 'icon-ind', to: '/rent' },
+  { id: 2, name: '我的出租', iconfont: 'icon-ind', to: '/Home/rent' },
   { id: 3, name: '看房记录', iconfont: 'icon-record' },
   {
     id: 4,
@@ -40,12 +40,8 @@ export default class Profile extends Component {
     })
   }
   getInfo = async () => {
-    const params = {
-      authorization: JSON.parse(getToken())
-    }
-    const { data } = await getInfo(params)
+    const { data } = await getInfo()
     if (data.status === 200) {
-      console.log('+++', data)
       this.setState(() => {
         return {
           nickname: data.body.nickname,
@@ -58,10 +54,7 @@ export default class Profile extends Component {
     }
   }
   dropout = async () => {
-    const params = {
-      authorization: JSON.parse(getToken())
-    }
-    const { data } = await logout(params)
+    const { data } = await logout()
     if (data.status === 200) {
       Toast.success(data.description, 2, null, false)
       removeToken("token")

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from './localstorage/token.js';
 
 
 // 创建axios对象,配置baseurl
@@ -10,7 +11,16 @@ let http = axios.create({
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
+    // 筛选需要添加headers的接口添加上headers
+    const { url } = config
+    if (
+        url.startsWith('/user') &&
+        !url.startsWith('/user/login') &&
+        !url.startsWith('/user/registered')
+    ) {
+        // 添加请求头
+        config.headers.Authorization = JSON.parse(getToken())
+    }
     return config;
 }, function (error) {
     // 对请求错误做些什么
