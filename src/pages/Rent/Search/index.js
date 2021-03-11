@@ -24,7 +24,7 @@ export default class Search extends Component {
     const { tipsList } = this.state
 
     return tipsList.map(item => (
-      <li key={item.community} className={styles.tip}>
+      <li key={item.community} className={styles.tip} onClick={() => {this.toRent(item)}}>
         {item.communityName}
       </li>
     ))
@@ -58,6 +58,10 @@ export default class Search extends Component {
         }
       })
     })
+  }
+  toRent = (item) => {
+    console.log(item)
+    this.props.history.push('/Home/rent/add',item)
   }
   render() {
     const { history } = this.props

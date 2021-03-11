@@ -92,12 +92,76 @@ export default class RentAdd extends Component {
     ])
   }
 
+  getMessage = () => {
+    const community = {
+      name: this.props.location.state.communityName,
+      id: this.props.location.state.city
+    }
+    this.setState(() => {
+      return {
+        community
+      }
+    })
+  }
+
+  setInput = (typeName, val) => {
+    console.log(typeName, val)
+    this.setState(() => {
+      return {
+        [typeName]: val
+      }
+    })
+  }
+
+  imageChange = (files, type, index) => {
+    let fil = []
+    files.forEach(item => {
+      fil.push({url:item.url,id:Math.random()})
+    })
+    console.log(fil)
+    this.setState(() => {
+      return {
+        tempSlides: fil
+      }
+    })
+  }
+
+  addHouse = () => {
+    const {
+      community,
+      price,
+      size,
+      roomType,
+      floor,
+      oriented,
+      description,
+      tempSlides,
+      title
+    } = this.state
+    console.log(community,
+      price,
+      size,
+      roomType[0],
+      floor[0],
+      oriented[0],
+      description,
+      tempSlides,
+      title)
+  }
+
+  componentDidMount() {
+    if (this.props.location.state) {
+      this.getMessage()
+    }
+  }
+
   render() {
     const Item = List.Item
     const { history } = this.props
     const {
       community,
       price,
+      size,
       roomType,
       floor,
       oriented,
@@ -128,22 +192,51 @@ export default class RentAdd extends Component {
           >
             小区名称
           </Item>
-          <InputItem placeholder="请输入租金/月" extra="￥/月" value={price}>
+          <InputItem
+            placeholder="请输入租金/月"
+            extra="￥/月"
+            value={price}
+            onChange={(val) => {
+              this.setInput('price', val)
+            }}
+          >
             租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金
           </InputItem>
-          <InputItem placeholder="请输入建筑面积" extra="㎡">
+          <InputItem
+            placeholder="请输入建筑面积"
+            extra="㎡"
+            value={size}
+            onChange={(val) => {
+              this.setInput('size', val)
+            }}
+          >
             建筑面积
           </InputItem>
-          <Picker data={roomTypeData} value={[roomType]} cols={1}>
+          <Picker
+            data={roomTypeData}
+            value={roomType}
+            onChange={v => this.setState({ roomType: v })}
+            cols={1}
+          >
             <Item arrow="horizontal">
               户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型
             </Item>
           </Picker>
 
-          <Picker data={floorData} value={[floor]} cols={1}>
+          <Picker
+            data={floorData}
+            value={floor}
+            onChange={v => this.setState({ floor: v })}
+            cols={1}
+          >
             <Item arrow="horizontal">所在楼层</Item>
           </Picker>
-          <Picker data={orientedData} value={[oriented]} cols={1}>
+          <Picker
+            data={orientedData}
+            value={oriented}
+            onChange={v => this.setState({ oriented: v })}
+            cols={1}
+          >
             <Item arrow="horizontal">
               朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向
             </Item>
@@ -158,6 +251,9 @@ export default class RentAdd extends Component {
           <InputItem
             placeholder="请输入标题（例如：整租 小区名 2室 5000元）"
             value={title}
+            onChange={(val) => {
+              this.setInput('title', val)
+            }}
           />
         </List>
 
@@ -169,6 +265,7 @@ export default class RentAdd extends Component {
           <ImagePicker
             files={tempSlides}
             multiple={true}
+            onChange={this.imageChange}
             className={styles.imgpicker}
           />
         </List>
@@ -191,6 +288,9 @@ export default class RentAdd extends Component {
             placeholder="请输入房屋描述信息"
             autoHeight
             value={description}
+            onChange={(val) => {
+              this.setInput('description', val)
+            }}
           />
         </List>
 
@@ -198,7 +298,10 @@ export default class RentAdd extends Component {
           <Flex.Item className={styles.cancel} onClick={this.onCancel}>
             取消
           </Flex.Item>
-          <Flex.Item className={styles.confirm} onClick={this.addHouse}>
+          <Flex.Item
+            className={styles.confirm}
+            onClick={this.addHouse}
+          >
             提交
           </Flex.Item>
         </Flex>
